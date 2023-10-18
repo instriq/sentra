@@ -39,7 +39,7 @@ def repositories(org):
 
 def main():
     parse = argparse.ArgumentParser(description='A script that fetches and analyzes DependaBot alerts from GitHub repositories of a specified organization.')
-    parse.add_argument('--org', help=' Specify the name of the organization for which you want to retrieve DependaBot alerts.\ne.g. DependaBot.py --org org_name', required=True)
+    parse.add_argument('--org', help='Specify the name of the organization for which you want to retrieve DependaBot alerts.\ne.g. DependaBot.py --org org_name', required=True)
     args = parse.parse_args()
 
     if args.org:
