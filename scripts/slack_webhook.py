@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-
 import requests
 import argparse
+import sys
 
 def message(data, webhook):
     try:
@@ -20,16 +20,19 @@ def message(data, webhook):
 
 def main():
     parser = argparse.ArgumentParser(description="An output forwarder script for webhooks.")
-    parser.add_argument("-m", "--message", help="Enter what you want to send.\n\ne.g. slack.py --message/-m \"something[...]\"", required=True)
+    parser.add_argument("-m", "--message", help="Enter what you want to send or use this with STDIN.\n\ne.g. $ ./slack_webhook.py --message/-m \"something[...]\"\nor\n$ echo -n \"bla bla bla\" | ./slack_webhook.py --webhook \"https://webhook_url/\"")
     parser.add_argument('--webhook', help='Set the webhook adress', required=True)
 
     args = parser.parse_args()
 
     if args.message:
-        try:
-            return message(args.message, args.webhook)
-        except EOFError:
-            exit(1)
+        print(message(args.message, args.webhook))
+    else:
+        data = sys.stdin.read()
+        if data:
+            print(message(data, args.webhook))
+        else:
+            print("No input data provided.")
 
 if __name__ == '__main__':
-    print (main())
+    main()
