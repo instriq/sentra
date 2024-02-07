@@ -1,7 +1,7 @@
 name: Basic Test
 on:
  schedule:
-  - cron:  '1 1 * * 1'
+    - cron: '28 23 * * 1'
 
 jobs:
   build:
