@@ -1,21 +1,22 @@
 name: Basic Test
+
 on:
- schedule:
-  - cron: '28 23 * * 1'
+  schedule:
+    - cron: '28 23 * * 1'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-     env:
-      GITHUB_TOKEN: ${{ secrets.COLLECT_ANALYCTS }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.COLLECT_ANALYTICS }}
       ORGANIZATION: ${{ secrets.ORGANIZATION }}
       WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
     steps:
-    - uses: actions/checkout@v4
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-    - name: Test the basic usage
-      run: |
-        python3 scripts/dependabot_metrics.py -o $ORGANIZATION -t $GITHUB_TOKEN | python3 scripts/slack_webhook.py -w $WEBHOOK
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Test the basic usage
+        run: |
+          python3 scripts/dependabot_metrics.py -o $ORGANIZATION -t $GITHUB_TOKEN | python3 scripts/slack_webhook.py -w $WEBHOOK
