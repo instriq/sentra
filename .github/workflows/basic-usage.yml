@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.COLLECT_ANALYTICS }}
+      TOKEN: ${{ secrets.COLLECT_ANALYTICS }}
       ORGANIZATION: ${{ secrets.ORGANIZATION }}
       WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
@@ -19,4 +19,4 @@ jobs:
           pip install -r requirements.txt
       - name: Test the basic usage
         run: |
-          python3 scripts/dependabot_metrics.py --org $ORGANIZATION --token $GITHUB_TOKEN | python3 scripts/slack_webhook.py --webhook $WEBHOOK
+          python3 scripts/dependabot_metrics.py --org $ORGANIZATION --token $TOKEN | python3 scripts/slack_webhook.py --webhook $WEBHOOK
