@@ -2,7 +2,7 @@ name: Basic Test
 
 on:
   schedule:
-    - cron: '28 10 * * 6'
+    - cron: '50 12 * * 6'
 
 jobs:
   build:
