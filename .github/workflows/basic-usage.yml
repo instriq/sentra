@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TOKEN: ${{ secrets.COLLECT_ANALYTICS }}
+      TOKEN: ${{ secrets.COLLECT_ANALYTCS }}
       ORGANIZATION: ${{ secrets.ORGANIZATION }}
       WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
