@@ -11,7 +11,7 @@ def repositories(org, token):
     )
 
     if response.status_code == 200:
-        repos = [f'{org}/{repo["name"]}' for repo in response.json()]
+        repos = [f'{org}/{repo["name"]}' for repo in response.json() if not repo["archived"]]
         return repos
     
     return False
