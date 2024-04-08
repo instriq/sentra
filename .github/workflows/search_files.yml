@@ -19,4 +19,4 @@ jobs:
           pip install -r requirements.txt
       - name: Test the basic usage
         run: |
-          python3 scripts/search_files.py --org $ORGANIZATION --token $TOKEN | python3 scripts/slack_webhook.py --webhook $WEBHOOK
+          python3 scripts/search_files.py --org $ORGANIZATION --token $TOKEN --dependency | python3 scripts/slack_webhook.py --webhook $WEBHOOK
