@@ -1,0 +1,22 @@
+name: Search files
+
+on:
+  schedule:
+    - cron: '28 23 * * 3'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{ secrets.READ_CONTENT }}
+      ORGANIZATION: ${{ secrets.ORGANIZATION }}
+      WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Test the basic usage
+        run: |
+          python3 scripts/search_files.py --org $ORGANIZATION --token $TOKEN --maintained | python3 scripts/slack_webhook.py --webhook $WEBHOOK
