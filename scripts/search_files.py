@@ -64,4 +64,4 @@ if __name__ == '__main__':
                 last_commit = last_commit_date(repository, args.token)
 
                 if last_commit and datetime.utcnow() - last_commit > timedelta(days=90):
-                    print(f'The repository {repository} has not been updated for more than 90 days.')
+                    print(f'The repository https://github.com/{repository} has not been updated for more than 90 days.')
