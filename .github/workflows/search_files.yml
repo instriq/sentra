@@ -1,4 +1,4 @@
-name: Search files
+name: Search for dependabot files
 
 on:
   schedule:
