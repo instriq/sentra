@@ -1,4 +1,4 @@
-name: Search files
+name: Check for maintained repositories
 
 on:
   schedule:
