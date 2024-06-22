@@ -1,4 +1,4 @@
-name: Basic Test
+name: DependaBot Metrics
 
 on:
   schedule:
