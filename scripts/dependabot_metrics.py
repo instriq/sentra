@@ -16,7 +16,7 @@ def repositories(org, token):
     response = requests.get(f'https://api.github.com/orgs/{org}/repos', headers={'Authorization': f'Bearer {token}'})
 
     if response.status_code == 200:
-        repos = [f'{org}/{repo["name"]}' for repo in response.json()]
+        repos = [f'{org}/{repo["name"]}' for repo in response.json() if not repo["archived"]]
         return repos
     
     return False
