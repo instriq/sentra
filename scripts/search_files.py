@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 def repositories(org, token):
     response = requests.get(
-        f'https://api.github.com/orgs/{org}/repos',
+        f'https://api.github.com/orgs/{org}/repos?per_page=100',
         headers = {'Authorization': f'Bearer {token}'}
     )
 
