@@ -4,7 +4,7 @@ import requests
 import argparse
 
 def get_alerts(repo, token):    
-    response = requests.get(f'https://api.github.com/repos/{repo}/dependabot/alerts?state=open', headers={'Authorization': f'Bearer {token}'})
+    response = requests.get(f'https://api.github.com/repos/{repo}/dependabot/alerts?state=open&per_page=100', headers={'Authorization': f'Bearer {token}'})
 
     if response.status_code == 200:
         alerts = response.json()
