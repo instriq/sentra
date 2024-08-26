@@ -3,28 +3,60 @@
 import requests
 import argparse
 
-def get_alerts(repo, token):    
-    response = requests.get(f'https://api.github.com/repos/{repo}/dependabot/alerts?state=open&per_page=100', headers={'Authorization': f'Bearer {token}'})
+HEADERS = {
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Accept': 'application/vnd.github+json',
+    'User-Agent': 'Sentra 0.0.1'
+}
 
-    if response.status_code == 200:
-        alerts = response.json()
-        return alerts
+def get_alerts(repo, token):
+    alerts = []
+    page = 1
+    while True:
+        url = f'https://api.github.com/repos/{repo}/dependabot/alerts?state=open&per_page=100&page={page}'
+        headers = HEADERS.copy()
+        headers['Authorization'] = f'Bearer {token}'
+        
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if not data:
+                break
+            alerts.extend(data)
+            page += 1
+        else:
+            print(f'Error fetching alerts: {response.status_code} - {response.reason}')
+            break
     
-    return False
+    return alerts
 
 def repositories(org, token):
-    response = requests.get(f'https://api.github.com/orgs/{org}/repos?per_page=100', headers={'Authorization': f'Bearer {token}'})
-
-    if response.status_code == 200:
-        repos = [f'{org}/{repo["name"]}' for repo in response.json() if not repo["archived"]]
-        return repos
+    repos = []
+    page = 1
+    while True:
+        url = f'https://api.github.com/orgs/{org}/repos?per_page=100&page={page}'
+        headers = HEADERS.copy()
+        headers['Authorization'] = f'Bearer {token}'
+        
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if not data:
+                break
+            repos.extend(f'{org}/{repo["name"]}' for repo in data if not repo["archived"])
+            page += 1
+        else:
+            print(f'Error fetching repositories: {response.status_code} - {response.reason}')
+            break
     
-    return False
+    return repos
 
 def main():
     parse = argparse.ArgumentParser(description='A script that fetches and analyzes DependaBot alerts from GitHub repositories of a specified organization.')
-    parse.add_argument('--org', help='Specify the name of the organization for which you want to retrieve DependaBot alerts.\ne.g. DependaBot.py --org org_name', required=True)
-    parse.add_argument('--token', help='Set the Github Token to use during actions.', required=True)
+    parse.add_argument('--org', help='Specify the name of the organization for which you want to retrieve DependaBot alerts.\ne.g. script.py --org org_name', required=True)
+    parse.add_argument('--token', help='Set the GitHub Token to use during actions.', required=True)
     args = parse.parse_args()
     
     total_alerts = 0
@@ -34,20 +66,22 @@ def main():
         list_repositories = repositories(args.org, args.token)
 
         if list_repositories:
-            for repositorie in list_repositories:
-                alerts = get_alerts(repositorie, args.token)
+            for repository in list_repositories:
+                alerts = get_alerts(repository, args.token)
 
                 if alerts:
                     total_alerts += len(alerts)
             
                     for alert in alerts:
-                        severity_count[alert['security_vulnerability']['severity']] += 1
+                        severity = alert.get('security_vulnerability', {}).get('severity', 'unknown')
+                        if severity in severity_count:
+                            severity_count[severity] += 1
     
             for severity, count in severity_count.items():
                 print(f'Severity {severity}: {count}')
 
             return f'Total DependaBot Alerts: {total_alerts}'
-        return 'Error when trying to request information from Github, please review the parameters provided.'
+        return 'Error when trying to request information from GitHub, please review the parameters provided.'
         
 if __name__ == '__main__':
-    print (main())
+    print(main())
