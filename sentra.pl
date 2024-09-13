@@ -30,7 +30,7 @@ sub main {
             ? sub { Sentra::Engine::DependabotMetrics->new($org, $token, $per_page) }
             : undef,
         'repository-check' => ($org && $token && ($maintained || $dependency))
-            ? sub { Sentra::Engine::SearchFiles->new($org, $token, $maintained, $dependency) }
+            ? sub { Sentra::Engine::SearchFiles->new($org, $token, $maintained, $dependency, $per_page) }
             : undef,
         'send-webhook' => ($webhook)
             ? sub { Sentra::Engine::SlackWebhook->new($message, $webhook) }
