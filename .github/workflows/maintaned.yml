@@ -13,10 +13,14 @@ jobs:
       WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-      - name: Test the basic usage
+          cpanm --installdeps .
+      
+      - name: Check maintained repositories and send to Slack
         run: |
-          python3 scripts/search_files.py --org $ORGANIZATION --token $TOKEN --maintained | python3 scripts/slack_webhook.py --webhook $WEBHOOK
+          message=$(perl sentra.pl -o $ORGANIZATION -t $TOKEN --maintained)
+          perl sentra.pl -w $WEBHOOK -m "$message"

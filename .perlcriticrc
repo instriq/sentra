@@ -1,0 +1,5 @@
+severity = 3
+
+[-TestingAndDebugging::RequireUseStrict]
+[-TestingAndDebugging::RequireUseWarnings]
+[-Subroutines::ProhibitManyArgs]
