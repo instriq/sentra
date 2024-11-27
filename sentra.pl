@@ -14,13 +14,13 @@ sub main {
     my ($org, $token, $webhook, $message, $maintained, $dependency, $per_page);
 
     GetOptions(
-        "o|org=s"        => \$org,
-        "t|token=s"      => \$token,
-        "w|webhook=s"    => \$webhook,
-        "m|message=s"    => \$message,
-        "mt|maintained"  => \$maintained,
-        "d|dependency"   => \$dependency,
-        "p|per_page=i"   => \$per_page
+        'o|org=s'        => \$org,
+        't|token=s'      => \$token,
+        'w|webhook=s'    => \$webhook,
+        'm|message=s'    => \$message,
+        'mt|maintained'  => \$maintained,
+        'd|dependency'   => \$dependency,
+        'p|per_page=i'   => \$per_page
     );
 
     $per_page ||= 100;
