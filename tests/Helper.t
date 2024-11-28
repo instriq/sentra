@@ -28,6 +28,7 @@ subtest 'Helper' => sub {
     );
 
     my @missing_options;
+    
     for my $option (@expected_options) {
         push @missing_options, $option unless $helper_output =~ m/\Q$option\E/x;
     }
@@ -36,9 +37,11 @@ subtest 'Helper' => sub {
         or diag "Missing options: " . join(", ", @missing_options);
 
     my $options_debug = "Options found:\n";
+    
     for my $option (@expected_options) {
         $options_debug .= sprintf("%s: %s\n", $option, $helper_output =~ m/\Q$option\E/x ? "Yes" : "No");
     }
+    
     diag $options_debug;
     pass('Printed debug information about options');
 };

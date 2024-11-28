@@ -10,6 +10,7 @@ use DateTime;
 use Mojo::Transaction::HTTP;
 
 my $mock_ua = Test::MockModule->new('Mojo::UserAgent');
+
 $mock_ua->mock('get', sub {
     my ($self, $url) = @_;
     my $tx = Mojo::Transaction::HTTP->new;
@@ -18,14 +19,17 @@ $mock_ua->mock('get', sub {
         $tx->res->code(200);
         $tx->res->body('[{"name":"repo1","archived":false},{"name":"repo2","archived":true}]');
     }
+    
     elsif ($url =~ /\/contents\/\.github\/dependabot\.yaml/x) {
         $tx->res->code(404);
     }
+    
     elsif ($url =~ /\/commits/x) {
         my $date = DateTime->now->subtract(days => 100)->iso8601;
         $tx->res->code(200);
         $tx->res->body(qq{[{"commit":{"committer":{"date":"$date"}}}]});
     }
+    
     return $tx;
 });
 
@@ -53,4 +57,4 @@ subtest 'SearchFiles' => sub {
 
 done_testing();
 
-1; 
+1;
