@@ -25,13 +25,16 @@ package Sentra::Engine::SearchFiles {
         $res->is_success or return "Error fetching repositories: " . $res->message . "\n";
 
         my $repos = $res->json;
+       
         for my $repo (@$repos) {
             next if $repo->{archived};
+            
             my $full_name = "$org/$repo->{name}";
 
             if ($dependency) {
                 my $dependabot_url = "https://api.github.com/repos/$full_name/contents/.github/dependabot.yaml";
                 my $dependabot_tx = $ua->get($dependabot_url => $headers);
+                
                 $output .= "The dependabot.yml file was not found in this repository: https://github.com/$full_name\n"
                     if $dependabot_tx->result->code == 404;
             }
@@ -40,11 +43,14 @@ package Sentra::Engine::SearchFiles {
                 my $commits_url = "https://api.github.com/repos/$full_name/commits";
                 my $commits_tx = $ua->get($commits_url => $headers);
                 my $commits_res = $commits_tx->result;
+                
                 if ($commits_res && $commits_res->is_success) {
                     my $commits = $commits_res->json;
+                    
                     if (@$commits) {
                         my $last_commit_date_str = $commits->[0]{commit}{committer}{date};
                         my $last_commit_date = DateTime::Format::ISO8601->parse_datetime($last_commit_date_str);
+                        
                         $output .= "The repository https://github.com/$full_name has not been updated for more than 90 days.\n"
                             if DateTime->now->subtract(days => 90) > $last_commit_date;
                     }
