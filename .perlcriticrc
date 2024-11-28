@@ -2,4 +2,6 @@ severity = 2
 
 [-TestingAndDebugging::RequireUseStrict]
 [-TestingAndDebugging::RequireUseWarnings]
-[-Subroutines::ProhibitManyArgs]
+
+[TestingAndDebugging::ProhibitNoWarnings]
+allow = once
