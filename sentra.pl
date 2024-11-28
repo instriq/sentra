@@ -11,38 +11,40 @@ use Sentra::Engine::SlackWebhook;
 use Sentra::Utils::Helper;
 
 sub main {
-    my ($org, $token, $webhook, $message, $maintained, $dependency, $per_page);
+    my ($org, $token, $webhook, $message, $maintained, $dependency);
+
+    my $per_page = 100;
 
     GetOptions(
-        'o|org=s'        => \$org,
-        't|token=s'      => \$token,
-        'w|webhook=s'    => \$webhook,
-        'm|message=s'    => \$message,
-        'mt|maintained'  => \$maintained,
-        'd|dependency'   => \$dependency,
-        'p|per_page=i'   => \$per_page
+        'o|org=s'       => \$org,
+        't|token=s'     => \$token,
+        'w|webhook=s'   => \$webhook,
+        'm|message=s'   => \$message,
+        'mt|maintained' => \$maintained,
+        'd|dependency'  => \$dependency,
+        'p|per_page=i'  => \$per_page
     );
-
-    $per_page ||= 100;
 
     my %actions = (
         'dependabot-metrics' => ($org && $token && !$maintained && !$dependency)
-            ? sub { Sentra::Engine::DependabotMetrics->new($org, $token, $per_page) }
+            ? sub { Sentra::Engine::DependabotMetrics -> new($org, $token, $per_page) }
             : undef,
         'repository-check' => ($org && $token && ($maintained || $dependency))
-            ? sub { Sentra::Engine::SearchFiles->new($org, $token, $maintained, $dependency, $per_page) }
+            ? sub { Sentra::Engine::SearchFiles -> new($org, $token, $maintained, $dependency, $per_page) }
             : undef,
         'send-webhook' => ($webhook)
-            ? sub { Sentra::Engine::SlackWebhook->new($message, $webhook) }
+            ? sub { Sentra::Engine::SlackWebhook -> new($message, $webhook) }
             : undef,
     );
 
     for my $action (grep { defined } values %actions) {
-        print $action->();
+        print $action -> ();
+        
         return 0;
     }
 
-    print Sentra::Utils::Helper->new();
+    print Sentra::Utils::Helper -> new();
+
     return 1;
 }
 
