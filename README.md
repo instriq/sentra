@@ -1,10 +1,16 @@
 <p align="center">
   <h3 align="center"><b>Sentra</b></h3>
-  <p align="center">The first autonomous source code posture risk score tool.</p>
+  <p align="center">The first autonomous source code posture risk score tool</p>
   <p align="center">
     <a href="https://github.com/instriq/sentra/blob/master/LICENSE.md">
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
+     <a href="https://github.com/instriq/sentra/releases">
+      <img src="https://img.shields.io/badge/version-0.0.3-blue.svg">
+    </a>
+    <img src="https://github.com/instriq/sentra/actions/workflows/linter.yml/badge.svg">
+    <img src="https://github.com/instriq/sentra/actions/workflows/zarn.yml/badge.svg">
+    <img src="https://github.com/instriq/sentra/actions/workflows/security-gate.yml/badge.svg">
   </p>
 </p>
 
@@ -13,16 +19,6 @@
 ### Summary
 
 Sentra is a collection of Perl modules designed to help gain speed and increase the maturity of security processes. These modules can be used independently or together to analyze GitHub repositories, manage Dependabot alerts, and send notifications via Slack.
-
----
-
-### Modules
-
-| Name | Description |
-|------|-------------|
-| DependabotMetrics | Fetches and analyzes Dependabot alerts from GitHub repositories of a specified organization. |
-| SearchFiles | Checks repositories for specific files and last update times. |
-| SlackWebhook | An output forwarder for sending messages to Slack via webhooks. |
 
 ---
 
@@ -43,18 +39,25 @@ $ cpanm --installdeps .
 ```
 $ perl sentra.pl
 
-Sentra v0.0.1
+Sentra v0.0.3
 Core Commands
 ==============
 Command                         Description
 -------                         -----------
 -o, --org                       Specify the name of the organization
 -t, --token                     Set the GitHub Token to use during actions
--w, --webhook                   Set the webhook address for Slack
--m, --message                   Message to send via Slack webhook
 -mt, --maintained               Check last commit date of repositories
 -d, --dependency                Check for dependabot.yaml file in repositories
--p, --per_page                  Set the number of items per page in API requests (default: 100)
+-M, --metrics                   See some metrics based on GHAS
+-w, --webhook                   Set the webhook address for Slack
+-m, --message                   Message to send via Slack webhook
+```
+
+---
+
+### Workflows examples
+
+```yaml
 ```
 
 ---
