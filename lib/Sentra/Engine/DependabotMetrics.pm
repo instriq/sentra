@@ -12,7 +12,7 @@ package Sentra::Engine::DependabotMetrics {
         my $headers = {
             'X-GitHub-Api-Version' => '2022-11-28',
             'Accept'               => 'application/vnd.github+json',
-            'User-Agent'           => 'Sentra 0.0.2',
+            'User-Agent'           => 'Sentra 0.0.3',
             'Authorization'        => "Bearer $token"
         };
 
@@ -38,26 +38,32 @@ package Sentra::Engine::DependabotMetrics {
         return "Error when trying to request information from GitHub, please review the parameters provided." unless @repos;
 
         my $total_alerts = 0;
-        my %severity_count = (low => 0, medium => 0, high => 0, critical => 0);
+        
+        my %severity_count = (
+            low => 0, 
+            medium => 0, 
+            high => 0, 
+            critical => 0
+        );
 
         for my $repo (@repos) {
             my $alert_page = 1;
 
             while (1) {
                 my $alert_url = "https://api.github.com/repos/$repo/dependabot/alerts?state=open&per_page=$per_page&page=$alert_page";
-                my $alert_tx  = $userAgent->get($alert_url => $headers);
+                my $alert_tx  = $userAgent -> get($alert_url => $headers);
                 my $res       = $alert_tx->result or return "Error fetching alerts for $repo: " . $alert_tx->error->{message} . "\n";
                 
                 $res->is_success or return "Error fetching alerts for $repo: " . $res->message . "\n";
 
-                my $alert_data = $res->json;
+                my $alert_data = $res -> json;
                 
                 last unless @$alert_data;
                 
                 $total_alerts += scalar @$alert_data;
                 
                 for my $alert (@$alert_data) {
-                    my $severity = $alert->{security_vulnerability}{severity} || 'unknown';
+                    my $severity = $alert -> {security_vulnerability}{severity} || 'unknown';
                     $severity_count{$severity}++ if exists $severity_count{$severity};
                 }
                 

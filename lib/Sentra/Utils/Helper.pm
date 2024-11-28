@@ -4,7 +4,7 @@ package Sentra::Utils::Helper {
 
     sub new {
         return "
-            \rSentra v0.0.2
+            \rSentra v0.0.3
             \rCore Commands
             \r==============
             \r\tCommand                         Description
