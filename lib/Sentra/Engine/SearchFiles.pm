@@ -9,17 +9,18 @@ package Sentra::Engine::SearchFiles {
     sub new {
         my ($class, $org, $token, $maintained, $dependency, $per_page) = @_;
         
-        my $ua = Mojo::UserAgent->new;
+        my $userAgent = Mojo::UserAgent->new;
+        
         my $headers = {
-            'Authorization' => "Bearer $token",
-            'Accept' => 'application/vnd.github+json',
+            'Authorization'        => "Bearer $token",
+            'Accept'               => 'application/vnd.github+json',
             'X-GitHub-Api-Version' => '2022-11-28'
         };
 
         my $output = '';
 
         my $repo_url = "https://api.github.com/orgs/$org/repos?per_page=$per_page";
-        my $repo_tx = $ua->get($repo_url => $headers);
+        my $repo_tx = $userAgent -> get($repo_url => $headers);
 
         my $res = $repo_tx->result or return "Error fetching repositories: " . $repo_tx->error->{message} . "\n";
         $res->is_success or return "Error fetching repositories: " . $res->message . "\n";
@@ -33,7 +34,7 @@ package Sentra::Engine::SearchFiles {
 
             if ($dependency) {
                 my $dependabot_url = "https://api.github.com/repos/$full_name/contents/.github/dependabot.yaml";
-                my $dependabot_tx = $ua->get($dependabot_url => $headers);
+                my $dependabot_tx = $userAgent->get($dependabot_url => $headers);
                 
                 $output .= "The dependabot.yml file was not found in this repository: https://github.com/$full_name\n"
                     if $dependabot_tx->result->code == 404;
@@ -41,7 +42,7 @@ package Sentra::Engine::SearchFiles {
 
             if ($maintained) {
                 my $commits_url = "https://api.github.com/repos/$full_name/commits";
-                my $commits_tx = $ua->get($commits_url => $headers);
+                my $commits_tx = $userAgent->get($commits_url => $headers);
                 my $commits_res = $commits_tx->result;
                 
                 if ($commits_res && $commits_res->is_success) {

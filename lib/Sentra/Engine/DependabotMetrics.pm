@@ -7,12 +7,12 @@ package Sentra::Engine::DependabotMetrics {
     sub new {
         my ($class, $org, $token, $per_page) = @_;
         
-        my $ua = Mojo::UserAgent -> new();
+        my $userAgent = Mojo::UserAgent -> new();
         
         my $headers = {
             'X-GitHub-Api-Version' => '2022-11-28',
             'Accept'               => 'application/vnd.github+json',
-            'User-Agent'           => 'Sentra 0.0.1',
+            'User-Agent'           => 'Sentra 0.0.2',
             'Authorization'        => "Bearer $token"
         };
 
@@ -21,7 +21,7 @@ package Sentra::Engine::DependabotMetrics {
 
         while (1) {
             my $repo_url = "https://api.github.com/orgs/$org/repos?per_page=$per_page&page=$repo_page";
-            my $repo_tx  = $ua -> get($repo_url => $headers);
+            my $repo_tx  = $userAgent -> get($repo_url => $headers);
             my $res      = $repo_tx -> result or return "Error fetching repositories: " . $repo_tx->error->{message} . "\n";
             
             $res->is_success or return "Error fetching repositories: " . $res->message . "\n";
@@ -45,7 +45,7 @@ package Sentra::Engine::DependabotMetrics {
 
             while (1) {
                 my $alert_url = "https://api.github.com/repos/$repo/dependabot/alerts?state=open&per_page=$per_page&page=$alert_page";
-                my $alert_tx  = $ua->get($alert_url => $headers);
+                my $alert_tx  = $userAgent->get($alert_url => $headers);
                 my $res       = $alert_tx->result or return "Error fetching alerts for $repo: " . $alert_tx->error->{message} . "\n";
                 
                 $res->is_success or return "Error fetching alerts for $repo: " . $res->message . "\n";
