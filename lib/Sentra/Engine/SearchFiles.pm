@@ -21,8 +21,8 @@ package Sentra::Engine::SearchFiles {
         my $repo_url = "https://api.github.com/orgs/$org/repos?per_page=$per_page";
         my $repo_tx = $ua->get($repo_url => $headers);
 
-        my $res = $repo_tx->result or return "Error fetching repositories: " . $repo_tx->error->{message} . "\n";
-        $res->is_success or return "Error fetching repositories: " . $res->message . "\n";
+        my $res = $repo_tx->result or return 'Error fetching repositories: ' . $repo_tx->error->{message} . "\n";
+        $res->is_success or return 'Error fetching repositories: ' . $res->message . "\n";
 
         my $repos = $res->json;
         for my $repo (@$repos) {
