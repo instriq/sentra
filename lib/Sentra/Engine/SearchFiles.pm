@@ -11,14 +11,17 @@ package Sentra::Engine::SearchFiles {
         my $output            = '';
         my $userAgent         = Sentra::Utils::UserAgent -> new($token);
         my @repositories_list = Sentra::Utils::Repositories_List -> new($org, $token);
-        
+        my @files             = (".github/dependabot.yaml");
+
         foreach my $repository (@repositories_list) {
-            my $dependabot_url = "https://api.github.com/repos/$repository/contents/.github/dependabot.yaml";
-            my $request        = $userAgent -> get($dependabot_url);
-                
-            if ($request -> code == 404) {
-                $output .= "The dependabot.yml file was not found in this repository: https://github.com/$repository\n";
-            }  
+            foreach my $file (@files) {
+                my $dependabot_url = "https://api.github.com/repos/$repository/contents/$file";
+                my $request        = $userAgent -> get($dependabot_url);
+                    
+                if ($request -> code == 404) {
+                    $output .= "The $file file was not found in this repository: https://github.com/$repository\n";
+                }  
+            }
         }
 
         return $output;
