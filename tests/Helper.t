@@ -37,7 +37,7 @@ subtest 'Helper' => sub {
 
     my $options_debug = "Options found:\n";
     for my $option (@expected_options) {
-        $options_debug .= sprintf("%s: %s\n", $option, $helper_output =~ m/\Q$option\E/x ? "Yes" : "No");
+        $options_debug .= sprintf "%s: %s\n", $option, $helper_output =~ m/\Q$option\E/x ? "Yes" : "No";
     }
     diag $options_debug;
     pass('Printed debug information about options');
