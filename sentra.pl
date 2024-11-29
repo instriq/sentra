@@ -3,20 +3,20 @@
 use 5.030;
 use strict;
 use warnings;
-use Getopt::Long qw(:config no_ignore_case);
 use lib './lib/';
-use Sentra::Engine::DependabotMetrics;
+use Getopt::Long qw(:config no_ignore_case);
+use Sentra::Utils::Helper;
+use Sentra::Engine::Maintained;
 use Sentra::Engine::SearchFiles;
 use Sentra::Engine::SlackWebhook;
-use Sentra::Engine::Maintained;
-use Sentra::Utils::Helper;
+use Sentra::Engine::DependabotMetrics;
 
 sub main {
     my ($org, $token, $webhook, $message, $help, %options);
     
     my $per_page = 100;
     
-    GetOptions(
+    GetOptions (
         'o|org=s'       => \$org,
         't|token=s'     => \$token,
         'w|webhook=s'   => \$webhook,
@@ -28,9 +28,9 @@ sub main {
     );
 
     my %dispatch_table = (
-        'metrics'    => sub { Sentra::Engine::DependabotMetrics->new($org, $token, $per_page) },
-        'dependency' => sub { Sentra::Engine::SearchFiles->new($org, $token, $per_page) },
-        'maintained' => sub { Sentra::Engine::Maintained->new($org, $token, $per_page) },
+        'metrics'    => sub { Sentra::Engine::DependabotMetrics -> new($org, $token, $per_page) },
+        'dependency' => sub { Sentra::Engine::SearchFiles -> new($org, $token, $per_page) },
+        'maintained' => sub { Sentra::Engine::Maintained -> new($org, $token, $per_page) },
     );
 
     for my $option (keys %options) {
@@ -40,7 +40,7 @@ sub main {
     }
 
     if ($webhook && $message) {
-        Sentra::Engine::SlackWebhook->new($message, $webhook)->send();
+        return Sentra::Engine::SlackWebhook -> new($message, $webhook) -> send();
     }
 
     if ($help) {
