@@ -30,7 +30,7 @@ package Sentra::Engine::DependabotMetrics {
             $repo_page++;
         }
 
-        return "Error when trying to request information from GitHub, please review the parameters provided." unless @repos;
+        return 'Error when trying to request information from GitHub, please review the parameters provided.' unless @repos;
 
         my $total_alerts = 0;
         my %severity_count = (low => 0, medium => 0, high => 0, critical => 0);
@@ -55,7 +55,7 @@ package Sentra::Engine::DependabotMetrics {
             }
         }
 
-        my $output = "";
+        my $output = '';
         $output .= "Severity $_: $severity_count{$_}\n" for keys %severity_count;
         $output .= "Total DependaBot Alerts: $total_alerts\n";
 
