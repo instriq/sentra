@@ -15,9 +15,9 @@ package Sentra::Engine::DependabotMetrics {
         my $total_alerts = 0;
         
         my %severity_count = (
-            low => 0, 
-            medium => 0, 
-            high => 0, 
+            low      => 0, 
+            medium   => 0, 
+            high     => 0, 
             critical => 0
         );
 
