@@ -28,9 +28,9 @@ sub main {
     );
 
     my %dispatch_table = (
-        'metrics'    => sub { Sentra::Engine::DependabotMetrics->new($org, $token, $per_page) },
-        'dependency' => sub { Sentra::Engine::SearchFiles->new($org, $token, $per_page) },
-        'maintained' => sub { Sentra::Engine::Maintained->new($org, $token, $per_page) },
+        'metrics'    => sub { Sentra::Engine::DependabotMetrics -> new($org, $token, $per_page) },
+        'dependency' => sub { Sentra::Engine::SearchFiles -> new($org, $token, $per_page) },
+        'maintained' => sub { Sentra::Engine::Maintained -> new($org, $token, $per_page) },
     );
 
     for my $option (keys %options) {
