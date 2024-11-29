@@ -24,7 +24,7 @@ subtest 'Helper' => sub {
         '-m, --message',
         '-mt, --maintained',
         '-d, --dependency',
-        '-p, --per_page'
+        '-p, --per_page',
     );
 
     my @missing_options;
@@ -34,12 +34,12 @@ subtest 'Helper' => sub {
     }
 
     is(scalar @missing_options, 0, 'All expected command options are present')
-        or diag "Missing options: " . join(", ", @missing_options);
+        or diag "Missing options: " . join ", ", @missing_options;
 
     my $options_debug = "Options found:\n";
     
     for my $option (@expected_options) {
-        $options_debug .= sprintf("%s: %s\n", $option, $helper_output =~ m/\Q$option\E/x ? "Yes" : "No");
+        $options_debug .= sprintf "%s: %s\n", $option, $helper_output =~ m/\Q$option\E/x ? "Yes" : "No";
     }
     
     diag $options_debug;
