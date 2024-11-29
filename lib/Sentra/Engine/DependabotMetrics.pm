@@ -21,8 +21,8 @@ package Sentra::Engine::DependabotMetrics {
             my $repo_url = "https://api.github.com/orgs/$org/repos?per_page=$per_page&page=$repo_page";
             my $repo_tx = $ua->get($repo_url => $headers);
 
-            my $res = $repo_tx->result or return "Error fetching repositories: " . $repo_tx->error->{message} . "\n";
-            $res->is_success or return "Error fetching repositories: " . $res->message . "\n";
+            my $res = $repo_tx->result or return 'Error fetching repositories: ' . $repo_tx->error->{message} . "\n";
+            $res->is_success or return 'Error fetching repositories: ' . $res->message . "\n";
 
             my $repo_data = $res->json;
             last unless @$repo_data;
