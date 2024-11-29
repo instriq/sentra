@@ -24,7 +24,7 @@ subtest 'Helper' => sub {
         '-m, --message',
         '-mt, --maintained',
         '-d, --dependency',
-        '-p, --per_page'
+        '-p, --per_page',
     );
 
     my @missing_options;
