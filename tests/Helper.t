@@ -33,7 +33,7 @@ subtest 'Helper' => sub {
     }
 
     is(scalar @missing_options, 0, 'All expected command options are present')
-        or diag "Missing options: " . join(", ", @missing_options);
+        or diag "Missing options: " . join ", ", @missing_options;
 
     my $options_debug = "Options found:\n";
     for my $option (@expected_options) {
