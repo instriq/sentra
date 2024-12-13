@@ -1,9 +1,10 @@
-FROM perl:5.40
+FROM ubuntu:latest
 
 COPY . /usr/src/sentra
 WORKDIR /usr/src/sentra
 
 RUN apt-get update && apt-get install -y \
+    cpanminus \
     libdatetime-perl \
     libssl-dev \
     libexpat1-dev \
