@@ -1,4 +1,4 @@
-name: Sentra Repository Risk Score
+name: sentra
 description: The first autonomous source code posture risk score tool
 author: LESIS
 branding:
@@ -21,7 +21,7 @@ inputs:
   token:
     description: 'Token to access the GitHub API'
     required: true
-    default: ${{ secrets.TOKEN }}
+    default: ${{ github.token }}
   org:
     description: 'Github organization to interact with'
     required: true
