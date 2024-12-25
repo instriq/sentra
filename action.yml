@@ -1,4 +1,4 @@
-name: sentra
+name: Sentra Repository Risk Score
 description: The first autonomous source code posture risk score tool
 author: LESIS
 branding:
@@ -33,3 +33,6 @@ runs:
         docker run ghcr.io/instriq/sentra/sentra:latest \
           --org ${{ inputs.org }} \
           --token ${{ inputs.token }} \
+          ${{ inputs.dependency != 'true' && '--dependency' || '' }} \
+          ${{ inputs.maintained != 'true' && '--maintained' || '' }} \
+          ${{ inputs.metrics != 'true' && '--metrics' || '' }}
