@@ -11,7 +11,7 @@ package Sentra::Engine::SearchFiles {
         my $output            = '';
         my $userAgent         = Sentra::Utils::UserAgent -> new($token);
         my @repositories_list = Sentra::Utils::Repositories_List -> new($org, $token);
-        my @files             = (".github/dependabot.yaml");
+        my @files             = (".github/dependabot.yml");
 
         foreach my $repository (@repositories_list) {
             foreach my $file (@files) {
