@@ -11,10 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Git
-        uses: actions/setup-git@v2
+        uses: actions/checkout@v4
 
       - name: Get the current version
         id: version
