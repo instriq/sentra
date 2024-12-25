@@ -2,13 +2,13 @@ package Sentra::Engine::SlackWebhook {
     use strict;
     use warnings;
     use Mojo::UserAgent;
-    use Mojo::JSON qw(encode_json);
+    use JSON;
 
     sub new {
         my ($class, $message, $webhook) = @_;
 
         my $userAgent = Mojo::UserAgent -> new();
-        my $payload   = encode_json({text => $message});
+        my $payload   = encode_json({ text => $message });
 
         my $text = $userAgent -> post($webhook => {
             'Content-Type' => 'application/json'
