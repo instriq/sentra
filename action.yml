@@ -1,0 +1,42 @@
+name: sentra
+description: The first autonomous source code posture risk score tool
+author: LESIS
+branding:
+  icon: "shield"
+  color: "blue"
+
+inputs:
+  dependency:
+    description: 'Check if repositories has dependabot.yml file'
+    required: false
+    default: true
+  maintained:
+    description: 'Get alerts about repositories with a last commit date greater than 90 days old'
+    required: false
+    default: true
+  metrics:
+    description: 'Extract some metrics based on GHAS'
+    required: false
+    default: true
+  token:
+    description: 'Token to access the GitHub API'
+    required: true
+    default: ${{ secrets.TOKEN }}
+  org:
+    description: 'Github organization to interact with'
+    required: true
+    default: ${{ github.repository_owner }}
+
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      env:
+        org: ${{ inputs.dependency }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+      run: |
+        docker run ghcr.io/instriq/sentra/sentra:latest \
+          --org ${{ inputs.org }} \
+          --token ${{ inputs.token }} \
