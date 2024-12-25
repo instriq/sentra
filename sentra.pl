@@ -40,7 +40,11 @@ sub main {
     }
 
     if ($webhook && $message) {
-        return Sentra::Engine::SlackWebhook -> new($message, $webhook) -> send();
+        my $send = Sentra::Engine::SlackWebhook -> new($message, $webhook);
+
+        if ($send) {
+            return 0;
+        }
     }
 
     if ($help) {

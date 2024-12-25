@@ -11,13 +11,12 @@ package Sentra::Engine::DependabotMetrics {
         my $userAgent = Sentra::Utils::UserAgent -> new($token);
         my @repositories_list = Sentra::Utils::Repositories_List -> new($org, $token);
         
-        my $output       = "";
-        my $total_alerts = 0;
-        
+        my $output         = "";
+        my $total_alerts   = 0;
         my %severity_count = (
-            low => 0, 
-            medium => 0, 
-            high => 0, 
+            low      => 0, 
+            medium   => 0, 
+            high     => 0, 
             critical => 0
         );
 
