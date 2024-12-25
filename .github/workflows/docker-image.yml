@@ -14,5 +14,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Set datetime variable
+      id: vars
+      run: echo "DATETIME=$(date +%s)" >> $GITHUB_ENV
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag sentra:$(date +%s)
+      run: docker build . --file Dockerfile --tag sentra:${{ env.DATETIME }}
+
+    - name: Test the Docker image
+      run: docker run --rm sentra:${{ env.DATETIME }} --help
