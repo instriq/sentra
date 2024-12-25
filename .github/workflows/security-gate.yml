@@ -35,6 +35,6 @@ jobs:
         -h "$MAX_HIGH" \
         -m "$MAX_MEDIUM" \
         -l "$MAX_LOW" \
-        --dependency-alerts
-        --secrets-alerts
+        --dependency-alerts \
+        --secret-alerts \
         --code-alerts
